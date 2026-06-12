@@ -1,10 +1,12 @@
 #!/bin/bash
 
-echo "Starting phpMyAdmin (Pterodactyl stable build)..."
+echo "Starting phpMyAdmin (Pterodactyl stable)..."
 
-export APACHE_RUN_DIR=/tmp
-export APACHE_PID_FILE=/tmp/apache2.pid
-export APACHE_RUN_USER=www-data
-export APACHE_RUN_GROUP=www-data
+APACHE_PORT=${SERVER_PORT:-80}
+
+echo "Configuring Apache on port $APACHE_PORT"
+
+sed -i "s/Listen 80/Listen ${APACHE_PORT}/g" /etc/apache2/ports.conf
+sed -i "s/:80/:${APACHE_PORT}/g" /etc/apache2/sites-enabled/000-default.conf
 
 exec apache2-foreground
