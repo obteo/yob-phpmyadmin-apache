@@ -2,6 +2,8 @@ FROM phpmyadmin:apache
 
 USER root
 
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+# Fix SOLO permessi runtime
+RUN mkdir -p /var/run/apache2 /tmp/phpmyadmin \
+    && chown -R www-data:www-data /var/run/apache2 /tmp/phpmyadmin
 
 USER www-data
